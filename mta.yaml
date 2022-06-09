@@ -1,0 +1,76 @@
+_schema-version: "3.2"
+ID: sc_r_prtracking
+version: 0.0.1
+modules:
+- name: sc-r-prtracking-approuter
+  type: approuter.nodejs
+  path: sc-r-prtracking-approuter
+  requires:
+  - name: sc_r_prtracking_html_repo_runtime
+  - name: uaa_sc_r_prtracking
+  - name: sc-dest-srv
+  - name: sc_r_prtracking_theming
+  - name: SC_Connectivity
+  parameters:
+    disk-quota: 256M
+    memory: 256M
+  properties:
+    SESSION_TIMEOUT: 30
+    INCOMING_CONNECTION_TIMEOUT: 300000
+- name: sc_r_prtracking_ui_deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: sc_r_prtracking_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - scrprtracking.zip
+      name: scrprtracking
+      target-path: resources/
+- name: scrprtracking
+  type: html5
+  path: prtracking
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: sc_r_prtracking_html_repo_runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
+- name: uaa_sc_r_prtracking
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: sc_r_prtracking-xsuaa-service
+    service-plan: application
+- name: sc_r_prtracking_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+- name: SC_Connectivity
+  type: org.cloudfoundry.existing-service
+- name: sc_r_prtracking_theming
+  parameters:
+    service: theming
+    service-plan: standard
+  type: org.cloudfoundry.managed-service
+- name: sc-dest-srv
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service: destination
+    service-name: sc-dest-srv
+    service-plan: lite
+parameters:
+  deploy_mode: html5-repo

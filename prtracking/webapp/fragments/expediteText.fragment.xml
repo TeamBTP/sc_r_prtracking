@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Popover
+		id="myPopover"
+		title="Expedited"
+		class="sapUiResponsivePadding--header sapUiResponsivePadding--footer"
+		placement="Top">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <Text text="{expeditingModel>/msg}" />
+            </VBox>
+            <VBox class="sapUiSmallMargin">
+                <Text text="Date: {path: 'expeditingModel>/0/EX_EXPEDITE_DATE', formatter: '.Formatter.formatDate'}" />
+            </VBox>
+        </content>
+		
+	</Popover>
+</core:FragmentDefinition>

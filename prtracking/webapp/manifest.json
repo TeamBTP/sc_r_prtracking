@@ -1,0 +1,155 @@
+{
+  "_version": "1.12.0",
+  "sap.app": {
+    "id": "scr.prtracking",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap-ux/fiori-freestyle-writer:basic",
+      "version": "0.11.6"
+    },
+    "dataSources": {
+        "ZSC_WORKSPACE_SRV": {
+            "uri": "/sap/opu/odata/sap/ZSC_WORKSPACE_SRV/",
+            "type": "OData",
+            "settings": {
+                "odataVersion": "2.0",
+                "localUri": "localService/metadata.xml"
+            }
+        },
+        "ZSC_WORKSPACE_PLATINUM_SRV": {
+            "uri": "/sap/opu/odata/sap/ZSC_WORKSPACE_PLATINUM_SRV/",
+            "type": "OData",
+            "settings": {
+                "odataVersion": "2.0",
+                "localUri": "localService/metadata2.xml"
+            }
+        }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.100.2",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.suite.ui.generic.template": {},
+        "sap.ui.comp": {},
+        "sap.ui.generic.app": {},
+        "sap.ui.table": {},
+        "sap.ushell": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "scr.prtracking.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true,
+          "groupId": "$direct"
+        }
+      },
+      "MODEL_ZSC_WORKSPACE_SRV": {
+        "type": "sap.ui.model.odata.v2.ODataModel",
+        "dataSource": "ZSC_WORKSPACE_SRV",
+        "preload": true,
+        "settings": {
+            "defaultOperationMode": "Server",
+            "defaultBindingMode": "TwoWay",
+            "defaultCountMode": "Inline",
+            "refreshAfterChange": false
+        }
+    },
+    "MODEL_ZSC_WORKSPACE_PLATINUM_SRV": {
+        "type": "sap.ui.model.odata.v2.ODataModel",
+        "dataSource": "ZSC_WORKSPACE_PLATINUM_SRV",
+        "preload": true,
+        "settings": {
+            "defaultOperationMode": "Server",
+            "defaultBindingMode": "TwoWay",
+            "defaultCountMode": "Inline",
+            "refreshAfterChange": false
+        }
+    }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "scr.prtracking.view",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "clearControlAggregation": false
+      },
+      "routes": [
+        {
+          "name": "RouteView1",
+          "pattern": "RouteView1",
+          "target": [
+            "TargetView1"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetView1": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "View1",
+          "viewName": "View1"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "scr.prtracking.view.View1",
+      "type": "XML",
+      "async": true,
+      "id": "View1"
+    }
+  }
+}

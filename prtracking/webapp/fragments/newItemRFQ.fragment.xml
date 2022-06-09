@@ -1,0 +1,182 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:table="sap.ui.table">
+    <Dialog id="DialogNewItemRFQ" title="New item" contentWidth="auto" resizable="true" draggable="true">
+        <VBox class="sapUiResponsiveMargin" >
+            <f:Form id="idFormNewItem"
+                editable="true">
+                <f:layout>
+                    <f:ColumnLayout
+                        columnsM="2"
+                        columnsL="3"
+                        columnsXL="6"
+                    />
+                </f:layout>
+                <f:formContainers>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement label="Item">
+                                <f:fields>
+                                    <Input editable="false" value="{infoModel>/itemPos}" id="idIRFQItem"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Material Number">
+                                <f:fields>
+                                    <Input
+                                        id="idMaterialNewItem"
+                                        type="Text"
+                                        showValueHelp="true"
+                                        valueHelpRequest="showMaterial"
+                                        suggestionItems="{materialsNewItemModel>/}">                                            
+                                        <suggestionItems>
+                                            <core:ListItem
+                                                key="{materialsNewItemModel>EX_MATNR}"
+                                                text="{materialsNewItemModel>EX_MATNR}"
+                                                additionalText="{materialsNewItemModel>EX_MAKTX}" />
+                                        </suggestionItems>
+                                    </Input>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Short Text" >
+                                <f:fields>
+                                    <Input value="{infoModel>/shortText}" id="idIShortText"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="RFQ Quantity" >
+                                <f:fields>
+                                    <Input value="" id="idIRFQQuantity"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Item Category">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        id="idCBItemCategory"
+                                        items="{
+                                            path: 'itemCategoryModel>/',
+                                            sorter: { path: 'EX_PTEXT' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{itemCategoryModel>EX_PSTYP}" text="{itemCategoryModel>EX_PTEXT} - {itemCategoryModel>EX_PSTYP}" additionalText = "{itemCategoryModel>EX_EPSTP}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement label="Vendor">
+                                <f:fields>
+                                    <Input
+                                        id="idCBVendorRFQ"
+                                        type="Text"
+                                        showValueHelp="true"
+                                        valueHelpRequest="showVendor"
+                                        suggestionItems="{vendorRFQModel>/}">
+                                        <suggestionItems>
+                                            <core:ListItem
+                                                key="{vendorRFQModel>EX_LIFNR}"
+                                                text="{vendorRFQModel>EX_NAME1}"
+                                                additionalText="{vendorRFQModel>EX_LIFNR}" />
+                                        </suggestionItems>
+                                    </Input>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="RFQ Date">
+                                <f:fields>
+                                    <DatePicker
+                                        id="idDPRFQDate"
+                                        value="{headerDataModel>/deliveryDate}"
+                                        valueFormat="yyyyMMdd"
+                                        displayFormat="yyyy-MM-dd">
+                                    </DatePicker>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Delivery Date">
+                                <f:fields>
+                                    <DatePicker
+                                        id="idDPDeliveryDate"
+                                        valueFormat="yyyyMMdd"
+                                        displayFormat="yyyy-MM-dd">
+                                    </DatePicker>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Template">
+                                <f:fields>
+                                    <Input value="{infoModel>/template}" id="idITemplete"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Account Assignment" >
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        id="idCBAccountAssigment"
+                                        filterSecondaryValues="true"
+                                        items="{
+                                            path: 'accAsignmentModel>/',
+                                            sorter: { path: 'EX_KNTTX' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{accAsignmentModel>EX_KNTTP}" text="{accAsignmentModel>EX_KNTTX} - {accAsignmentModel>EX_KNTTP}" additionalText = "{accAsignmentModel>EX_KNTTP}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement label="Material Group">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        id="idCBMaterialGroup"
+                                        items="{
+                                            path: 'materialGroupModel>/',
+                                            sorter: { path: 'EX_MATKL' }                                        
+                                        }">
+                                        <core:ListItem key="{materialGroupModel>EX_MATKL}" text="{materialGroupModel>EX_MATKL} - {materialGroupModel>EX_WGBEZ}" additionalText = "{materialGroupModel>EX_WGBEZ}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Long Text">
+                                <f:fields>
+                                    <Input value="" id="idILongText"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Storage Location">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        id="idCBStorageLocation"
+                                        items="{
+                                            path: 'stoLocationNewItemModel>/',
+                                            sorter: { path: 'EX_LGOBE' }                                        
+                                        }">
+                                        <core:ListItem key="{stoLocationNewItemModel>EX_LGORT}" text="{stoLocationNewItemModel>EX_LGOBE} - {stoLocationNewItemModel>EX_LGORT}" additionalText = "{stoLocationNewItemModel>EX_LGORT}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Plant">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        id="idCBPlant"
+                                        items="{
+                                            path: 'plantNewItemModel>/',
+                                            sorter: { path: 'EX_NAME1' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{plantNewItemModel>EX_WERKS}" text="{plantNewItemModel>EX_NAME1} - {plantNewItemModel>EX_WERKS}" additionalText = "{plantNewItemModel>EX_WERKS}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                </f:formContainers>
+            </f:Form>
+        </VBox>
+        <beginButton>
+            <Button text="Add" press="addNewItem"></Button>
+        </beginButton>
+        <endButton>
+            <Button text="Close"  type="Reject" press="closeDialog"></Button>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

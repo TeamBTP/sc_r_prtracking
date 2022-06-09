@@ -1,0 +1,36 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core" id="test">
+	<SelectDialog
+		title="Partner Number"
+		items="{
+            path: 'partnerNumberModel>/',
+            sorter: { path: 'EX_MCOD1' }                                        
+        }" 
+		search="searchPartnerNumber"
+		confirm="_handleValueHelpClose"
+		cancel="_handleValueHelpClose">
+		<StandardListItem
+			iconDensityAware="false"
+			iconInset="false"
+			title="{partnerNumberModel>EX_MCOD1}"
+			description="{partnerNumberModel>EX_LIFNR}">
+        </StandardListItem>
+	</SelectDialog>
+    <!-- <Dialog id="idDialogVendor" title="Vendor" contentWidth="auto" resizable="true" draggable="true">
+        <VBox class="sapUiResponsiveMargin" >
+            <Tree
+                id="Tree"
+                items="{path: 'materialsModel>/', sorter: { path: 'EX_MAKTX' }}"
+                mode="MultiSelect"
+                includeItemInSelection="true">
+                <StandardTreeItem
+                    title="{materialsModel>EX_MAKTX}">
+                </StandardTreeItem>
+            </Tree>
+        </VBox>
+        <endButton>
+            <Button text="Close"  type="Reject" press="closeDialog"></Button>
+        </endButton>
+    </Dialog> -->
+</core:FragmentDefinition>

@@ -1,0 +1,73 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:table="sap.ui.table">
+    <Dialog id="idDialogPRServices" title="Services:" contentWidth="auto" resizable="true" draggable="true">
+        <VBox class="sapUiResponsiveMargin" >
+            <Text class="sapUiTinyMargin" text="[{infoModel>/itemNumber}] {infoModel>/materialNumber}, {infoModel>/shortText} "/>
+            <table:Table 
+                selectionMode="None"
+                rows="{prServicesModel>/}"
+                visibleRowCount="{infoModel>/countPRServices}">
+                <!-- <table:extension>
+                    <OverflowToolbar style="Clear">
+                        <Title id="title" text="Products"/>
+                    </OverflowToolbar>
+                </table:extension> -->
+                <table:columns>
+                    <table:Column width="auto">
+                        <Label text="Line Number" />
+                        <table:template>
+                            <Text text="{prServicesModel>EX_EXTROW}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Deletion Indicator" />
+                        <table:template>
+                            <Text text="{prServicesModel>EX_DEL}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Service number" />
+                        <table:template>
+                            <Text text="{prServicesModel>EX_SRVPOS}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Short Text" />
+                        <table:template>
+                            <Text text="{prServicesModel>EX_KTEXT1}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Quantity" />
+                        <table:template>
+                            <Text text="{prServicesModel>EX_MENGE}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Actual quantity" />
+                        <table:template>
+                            <Text text="{prServicesModel>EX_ACT_MENGE}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Unit" />
+                        <table:template>
+                            <Text text="{prServicesModel>EX_MEINS}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Gross Price" />
+                        <table:template>
+                            <Text text="{prServicesModel>EX_BRTWR}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </VBox>
+        <beginButton>
+            <!-- <Button text="Select" press=""></Button> -->
+        </beginButton>
+        <endButton>
+            <Button text="Close"  type="Transparent" press="closeDialog"></Button>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

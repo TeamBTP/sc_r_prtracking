@@ -1,0 +1,20 @@
+{
+  "xsappname": "sc_r_prtracking",
+  "tenant-mode": "dedicated",
+  "description": "Security profile of called application",
+  "scopes": [
+    {
+        "name": "$XSAPPNAME.View",
+        "description": "Rol PR Tracking"
+    }
+  ],
+  "role-templates": [
+    {
+        "name": "ROL_SC_R_PRTRACKING",
+        "description": "Rol PR Tracking",
+        "scope-references": [
+          "$XSAPPNAME.View"
+        ]
+      }
+  ]
+}

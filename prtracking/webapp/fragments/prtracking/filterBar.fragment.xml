@@ -1,0 +1,495 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:fb="sap.ui.comp.filterbar">
+    <!--Filtos de busqueda -->
+    <fb:FilterBar id="idFilterBar" reset="onReset" clear="clearFilters" search="getDataPR" useToolbar="false"  showClearOnFB="true">
+        <fb:filterGroupItems>
+            <fb:FilterGroupItem groupName="__$INTERNAL$" name="A" label="Company Code" mandatory="true" partOfCurrentVariant="true" visibleInFilterBar="true">
+                <fb:control>
+                    <MultiComboBox showSecondaryValues="true"
+                        selectionChange="changeCompanyCode"
+                        items="{
+                            path: 'companyCodeModel>/',
+                            sorter: { path: 'EX_DSC_COMPANY_CODE' }                                        
+                        }" 
+                        id="idCBCompanyCode">
+                        <core:ListItem key="{companyCodeModel>EX_COMPANY_CODE}" text="{companyCodeModel>EX_DSC_COMPANY_CODE} - {companyCodeModel>EX_COMPANY_CODE}" additionalText = "{companyCodeModel>EX_COMPANY_CODE} - {companyCodeModel>EX_ORIGEN}"/>
+                    </MultiComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="__$INTERNAL$" name="B" label="Plant" partOfCurrentVariant="true" mandatory="true" visibleInFilterBar="true">
+                <fb:control>
+                    <MultiComboBox showSecondaryValues="true"
+                        selectionChange="changePlant"
+                        enabled="false"
+                        id="idCBPlant"
+                        items="{
+                            path: 'plantModel>/',
+                            sorter: { path: 'EX_NAME1' }                                        
+                        }" 
+                        >
+                        <core:ListItem key="{plantModel>EX_WERKS}" text="{plantModel>EX_NAME1} - {plantModel>EX_WERKS}" additionalText = "{plantModel>EX_WERKS}"/>
+                    </MultiComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G4" groupTitle="Group4" name="A4" label="Request Type" visibleInFilterBar="true" >
+                <fb:control>
+                    <MultiComboBox showSecondaryValues="true" enabled="false"
+                        items="{
+                            path: 'REQUEST_TYPEModel>/',
+                            sorter: { path: 'value' }                                        
+                        }" 
+                        id="idCBRequestType">
+                        <core:ListItem key="{REQUEST_TYPEModel>value}" text="{path: 'REQUEST_TYPEModel>value', formatter: '.Formatter.formatType'}"/>
+                    </MultiComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G16" groupTitle="Group16" name="A16" id="idFGIPuchRequi" label="Purchase Requisitions" visibleInFilterBar="true" >
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idCBPurchRequisitions"
+                        type="Text"
+                        maxLength="10">                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G6" groupTitle="Group6" id="idFGIDeliDateFrom" name="A6" mandatory="true" label="Delivery Date From" visibleInFilterBar="true" >
+                <fb:control>
+                    <DatePicker
+                        enabled="false"
+                        change="changeDate"
+                        value="{filterModel>/deliveryDateFrom}"
+                        valueFormat="yyyyMMdd"
+                        displayFormat="yyyy-MM-dd"
+                        id="idDPDeliDateFrom">
+                    </DatePicker>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G7" groupTitle="Group7" id="idFGIDeliDateTo" name="A7" mandatory="true" label="Delivery Date To" visibleInFilterBar="true" >
+                <fb:control>
+                    <DatePicker
+                        enabled="false"
+                        change="changeDate"
+                        value="{filterModel>/deliveryDateTo}"
+                        valueFormat="yyyyMMdd"
+                        displayFormat="yyyy-MM-dd"
+                        id="idDPDeliDateTo">
+                    </DatePicker>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G21" groupTitle="Group21" name="B21" label="Fixed Vendor" visibleInFilterBar="false">
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idCBVendorFixed"
+                        type="Text"
+                        showValueHelp="true"
+                        valueHelpRequest="showVendor"
+                        suggestionItems="{vendorModel>/}">
+                        <suggestionItems>
+                            <core:ListItem
+                                key="{vendorModel>EX_LIFNR}"
+                                text="{vendorModel>EX_NAME1}"
+                                additionalText="{vendorModel>EX_LIFNR}" />
+                        </suggestionItems>
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G2" groupTitle="Group2" name="B2" label="Desired Vendor" visibleInFilterBar="false">
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idCBVendor"
+                        type="Text"
+                        showValueHelp="true"
+                        valueHelpRequest="showVendor"
+                        suggestionItems="{vendorModel>/}">
+                        <suggestionItems>
+                            <core:ListItem
+                                key="{vendorModel>EX_LIFNR}"
+                                text="{vendorModel>EX_NAME1}"
+                                additionalText="{vendorModel>EX_LIFNR}" />
+                        </suggestionItems>
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G3" groupTitle="Group3" name="A3" label="Material" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idCBMaterial"
+                        type="Text"
+                        showValueHelp="true"
+                        valueHelpRequest="showMaterial"
+                        suggestionItems="{materialsModel>/}">                                            
+                        <suggestionItems>
+                            <core:ListItem
+                                key="{materialsModel>EX_MATNR}"
+                                text="{materialsModel>EX_MAKTX}"
+                                additionalText="{materialsModel>EX_MATNR}" />
+                        </suggestionItems>
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G14" groupTitle="Group14" name="A14" label="Manufacturing Part #" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        id="idIManufac"
+                        enabled="false"
+                        type="Text"
+                        maxLength="40">                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G1" groupTitle="Group1" name="A1" label="Storage Location" visibleInFilterBar="false">
+                <fb:control>
+                    <MultiComboBox showSecondaryValues="true"
+                        enabled="false"
+                        id="idCBStoLocation"
+                        selectionChange="changeStoLocation"
+                        items="{
+                            path: 'stoLocationModel>/',
+                            sorter: { path: 'EX_LGOBE' }                                        
+                        }">
+                        <core:ListItem key="{stoLocationModel>EX_LGORT}" text="{stoLocationModel>EX_LGOBE} - {stoLocationModel>EX_LGORT}" additionalText = "{stoLocationModel>EX_LGORT}"/>
+                    </MultiComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G13" groupTitle="Group13" name="A13" label="Outline Agreement" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idIOutlineAgreement"
+                        type="Text"
+                        maxLength="10">                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G12" groupTitle="Group12" name="A12" label="Requisitioner" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idIRequisitioner"
+                        type="Text"
+                        maxLength="12">                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G22" groupTitle="Group22" name="A22" label="Deletion indicator" visibleInFilterBar="false" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        enabled="false"
+                        id="idCBDeletionIndicator"
+                        filterSecondaryValues="true" selectedKey="E">
+                        <items>
+                            <core:Item key="X" text="Deleted"/>
+                            <core:Item key="E" text="Not Deleted"/>
+                        </items>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G32" name="A32" label="Cost Center" visibleInFilterBar="false" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        filterSecondaryValues="true"
+                        items="{
+                            path: 'costCenterModel>/',
+                            sorter: { path: 'EX_KOSTL' }                                        
+                        }" 
+                        enabled="false"
+                        id="idCBCostCenter"
+                        >
+                        <core:ListItem key="{costCenterModel>EX_KOSTL}" text="{costCenterModel>EX_KOSTL} - {costCenterModel>EX_MCTXT}" additionalText = "{costCenterModel>EX_MCTXT}"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G33" name="A33" label="WBS Element" visibleInFilterBar="false" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        id="idCBWBSElement"
+                        filterSecondaryValues="true"
+                        items="{
+                            path: 'wbsElementModel>/',
+                            sorter: { path: 'EX_POST1' }                                        
+                        }" 
+                        >
+                        <core:ListItem key="{wbsElementModel>EX_POSID}" text="{wbsElementModel>EX_POST1} - {wbsElementModel>EX_POSID}" additionalText = "{wbsElementModel>EX_POSID}"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G34" name="A34" label="Work Order Number" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        id="idIOrderNumber"
+                        type="Text"
+                        showValueHelp="true"
+                        valueHelpOnly="true"
+                        valueHelpRequest="showOrderNumber"
+                        >                                            
+                        <core:Item
+                            key="{orderNumberModel>EX_AUFNR}"
+                            text="{orderNumberModel>EX_AUFNR}"
+                            />
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G35" name="A35" label="G/L Account" visibleInFilterBar="false" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        filterSecondaryValues="true"
+                        id="idCBGLAccount"
+                        items="{
+                            path: 'GLAccountModel>/',
+                            sorter: { path: 'EX_SAKAN' }                                        
+                        }" 
+                        >
+                        <core:ListItem key="{GLAccountModel>EX_SAKAN}" text="{GLAccountModel>EX_SAKAN} - {GLAccountModel>EX_TXT50}" additionalText = "{GLAccountModel>EX_TXT50}"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G37" name="A37" label="PO Number" id="idFGIPO" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idIPONumber"
+                        type="Text"
+                        maxLength="12">                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G38" name="A38" label="PR Status of Approval" visibleInFilterBar="true" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        enabled="false"
+                        filterSecondaryValues="true"
+                        id="idIStatusApproval">
+                        <core:Item key="approved" text="Approved"/>
+                        <core:Item key="rejected" text="Rejected"/>
+                        <core:Item key="pending" text="Pending"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G39" name="A39" label="PO Status" visibleInFilterBar="true" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        enabled="false"
+                        id="idCBPOStatus">
+                        <items>
+                            <core:Item key="poCreated" text="PO Created"/>
+                            <core:Item key="poApproved" text="PO Approved"/>
+                            <core:Item key="poIssued" text="PO Issued"/>
+                            <core:Item key="poLocked" text="PO Locked"/>
+                            <core:Item key="poDeleted" text="PO Deleted"/>
+                            <core:Item key="poPartReceived" text="PO Partially Received"/>
+                            <core:Item key="poFullyReceived" text="PO fully Received"/>
+                            <core:Item key="poFullyPaid" text="PO Fully Paid"/>
+                            <core:Item key="poDrafts" text="PO Drafts"/>
+                        </items>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G40" name="A40" label="GRV Status" visibleInFilterBar="true" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        enabled="false"
+                        filterSecondaryValues="true"
+                        id="idCBGRVStatus">
+                        <core:Item key="full" text="Received in Full"/>
+                        <core:Item key="partially" text="Partially Received"/>
+                        <core:Item key="notReceived" text="Not Received"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G45" name="A45" label="SES Number" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idISESNumber"
+                        type="Text"
+                        >                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G41" name="A41" label="SES Approval Status" visibleInFilterBar="true" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        enabled="false"
+                        filterSecondaryValues="true"
+                        id="idCBSESApprovalStatus">
+                        <core:Item key="approved" text="Approved"/>
+                        <core:Item key="rejected" text="Rejected"/>
+                        <core:Item key="pending" text="Pending"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G42" name="A42" label="Invoiced Received Status" visibleInFilterBar="true" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        enabled="false"
+                        filterSecondaryValues="true"
+                        id="idCBInvoicedStatus">
+                        <core:Item key="full" text="Received in Full"/>
+                        <core:Item key="partially" text="Partially Received"/>
+                        <core:Item key="notReceived" text="Not Received"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <!-- <fb:FilterGroupItem groupName="G43" name="A43" label="Item Description" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idCBItemDescription"
+                        type="Text"
+                        maxLength="40">                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem> -->
+            <fb:FilterGroupItem id="idFGICreatedBy" groupName="G44" name="A44" label="Created By" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idICreatedBy"
+                        type="Text"
+                        maxLength="12">                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <!-- <fb:FilterGroupItem groupName="G2" groupTitle="Group2" name="A2" label="Purchasing Group" visibleInFilterBar="true" >
+                <fb:control>
+                    <MultiComboBox showSecondaryValues="true"
+                        selectionChange="changePurchGroup"
+                        id="idCBPurchGroup"
+                        items="{
+                            path: 'purchGroupModel>/',
+                            sorter: { path: 'EX_EKGRP' }                                        
+                        }" 
+                        >
+                        <core:ListItem key="{purchGroupModel>EX_EKGRP}" text="{purchGroupModel>EX_EKNAM} - {purchGroupModel>EX_EKGRP}" additionalText = "{purchGroupModel>EX_EKGRP}"/>
+                    </MultiComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G1" groupTitle="Group1" name="B1" label="Purchasing Organisation" visibleInFilterBar="true">
+                <fb:control>
+                    <MultiComboBox showSecondaryValues="true"
+                        selectionChange="changePurchOrg"
+                        enabled="false"
+                        id="idCBPurchOrg"
+                        items="{
+                            path: 'purchOrgModel>/',
+                            sorter: { path: 'EX_EKORG ' }                                        
+                        }" 
+                        >
+                        <core:ListItem key="{purchOrgModel>EX_EKORG}" text="{purchOrgModel>EX_EKOTX} - {purchOrgModel>EX_EKORG}" additionalText = "{purchOrgModel>EX_EKORG}"/>
+                    </MultiComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G5" groupTitle="Group5" name="A5" label="Request Status" visibleInFilterBar="true" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="false" enabled="false"
+                        selectedKey="OPEN PR (APPROVED)"
+                        filterSecondaryValues="true"
+                        items="{
+                            path: 'REQUEST_STATUSModel>/',
+                            sorter: { path: 'value' }                                        
+                        }" 
+                        id="idCBRequestStatus">
+                        <core:ListItem key="{REQUEST_STATUSModel>value}" text="{path: 'REQUEST_STATUSModel>value'}"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G24" groupTitle="Group24" name="B24" label="PPA description" visibleInFilterBar="false">
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idIPPADescrip"
+                        type="Text">
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G8" groupTitle="Group8" name="A8" label="Value from" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idRSFilterValueFrom"
+                        type="Number"
+                        maxLength="10">                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G26" groupTitle="Group26" name="A26" label="Value to" visibleInFilterBar="false" >
+                <fb:control>
+                    <Input
+                        enabled="false"
+                        id="idRSFilterValueTo"
+                        type="Number"
+                        maxLength="10">                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G11" groupTitle="Group11" name="A11" label="Document Type" visibleInFilterBar="false" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        enabled="false"
+                        items="{
+                            path: 'docTypeModel>/',
+                            sorter: { path: 'EX_BATXT' }                                        
+                        }" 
+                        id="idCBDocumentType"
+                        filterSecondaryValues="true" >
+                        <core:ListItem key="{docTypeModel>EX_BSART}" text="{docTypeModel>EX_BATXT} - {docTypeModel>EX_BSART}" additionalText = "{docTypeModel>EX_BSART}"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G10" groupTitle="Group10" name="A10" label="Account Assignment" visibleInFilterBar="false" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        enabled="false"
+                        items="{
+                            path: 'accAsignmentModel>/',
+                            sorter: { path: 'EX_KNTTX' }                                        
+                        }" 
+                        id="idCBAccountAssignment"
+                        filterSecondaryValues="true" >
+                        <core:ListItem key="{accAsignmentModel>EX_KNTTP}" text="{accAsignmentModel>EX_KNTTX} - {accAsignmentModel>EX_KNTTP}" additionalText = "{accAsignmentModel>EX_KNTTP}"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G9" groupTitle="Group9" name="A9" label="Item Category" visibleInFilterBar="false" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        enabled="false"
+                        items="{
+                            path: 'itemCategoryModel>/',
+                            sorter: { path: 'EX_PTEXT' }                                        
+                        }" 
+                        id="idCBItemCategory"
+                        filterSecondaryValues="true" >
+                        <core:ListItem key="{itemCategoryModel>EX_PSTYP}" text="{itemCategoryModel>EX_PTEXT} - {itemCategoryModel>EX_PSTYP}" additionalText = "{itemCategoryModel>EX_EPSTP}"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem groupName="G15" groupTitle="Group15" name="A15" label="Acquisition Type" visibleInFilterBar="false" >
+                <fb:control>
+                    <ComboBox showSecondaryValues="true"
+                        items="{
+                            path: 'acquisitionTypeModel>/',
+                            sorter: { path: 'EX_ZZACQTYP' }                                        
+                        }" 
+                        id="idCBAcquisitionType"
+                        enabled="false"
+                        filterSecondaryValues="true" >
+                        <core:ListItem key="{acquisitionTypeModel>EX_ZZACQTYP}" text="{acquisitionTypeModel>EX_ZZACQTYP_TEXT} - {acquisitionTypeModel>EX_ZZACQTYP}" additionalText = "{acquisitionTypeModel>EX_ZZACQTYP}"/>
+                    </ComboBox>
+                </fb:control>
+            </fb:FilterGroupItem>
+            <fb:FilterGroupItem id="idFGIAgent" groupName="G16" name="g16" label="Agent" visibleInFilterBar="true">
+                <fb:control>
+                    <Input
+                        id="idIAgent"
+                        type="Text"
+                        maxLength="12">                                            
+                    </Input>
+                </fb:control>
+            </fb:FilterGroupItem> -->
+        </fb:filterGroupItems>
+    </fb:FilterBar>  
+</core:FragmentDefinition>

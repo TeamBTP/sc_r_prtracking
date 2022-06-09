@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Order Number"
+		items="{
+            path: 'orderNumberModel>/',
+            sorter: { path: 'EX_KTEXT' }                                        
+        }" 
+		search="searchOrderNumber"
+		confirm="closeOrderNumberFilter"
+		cancel="closeOrderNumberFilter">
+		<StandardListItem
+			iconDensityAware="false"
+			iconInset="false"
+			title="{orderNumberModel>EX_KTEXT}"
+			description="{orderNumberModel>EX_AUFNR}" />
+	</SelectDialog>
+</core:FragmentDefinition>

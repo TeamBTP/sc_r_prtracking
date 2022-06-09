@@ -1,0 +1,66 @@
+{
+	"EntryCollection": [
+		{
+			"Author": "Alexandrina Victoria",
+			"AuthorPicUrl": "test-resources/sap/m/images/dronning_victoria.jpg",
+			"Type": "Request",
+			"Date": "March 03 2013",
+			"Actions": [
+				{
+					"Text": "Delete",
+					"Icon": "sap-icon://delete",
+					"Key": "delete"
+				},
+				{
+					"Text": "Share",
+					"Icon": "sap-icon://share-2",
+					"Key": "share"
+				},
+				{
+					"Text": "Edit",
+					"Icon": "sap-icon://edit",
+					"Key": "edit"
+				}
+			],
+			"Text": "Lorem <strong>ipsum dolor si"
+		},
+		{
+			"Author": "George Washington",
+			"AuthorPicUrl": "test-resources/sap/m/images/george_washington.jpg",
+			"Type": "Reply",
+			"Date": "March 04 2013",
+			"Text": "Lorem ipsum dolor sit <a href='http://www.sap.com'>amet</a>, consetetur sadipscing elitr, <em>sed diam</em> nonumy <strong>eirmod tempor</strong> invidunt ut labore"
+		},
+		{
+			"Author": "Alexandrina Victoria",
+			"AuthorPicUrl": "test-resources/sap/m/images/dronning_victoria.jpg",
+			"Type": "Request",
+			"Date": "March 05 2013",
+			"Text": "Lorem ipsum dolor sit amet, <u>consetetur sadipscing elitr</u>, sed diam nonumy eirmod tempor <strong>invidunt ut labore et dolore magna</strong> aliquyam erat",
+			"Actions": [
+				{
+					"Text": "Delete",
+					"Icon": "sap-icon://delete",
+					"Key": "delete"
+				},
+				{
+					"Text": "Share",
+					"Icon": "sap-icon://share-2",
+					"Key": "share"
+				},
+				{
+					"Text": "Edit",
+					"Icon": "sap-icon://edit",
+					"Key": "edit"
+				}
+			]
+		},
+		{
+			"Author": "George Washington",
+			"AuthorPicUrl": "test-resources/sap/m/images/george_washington.jpg",
+			"Type": "Rejection",
+			"Date": "March 07 2013",
+			"Text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, www.sap.com sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+		}
+	]
+}

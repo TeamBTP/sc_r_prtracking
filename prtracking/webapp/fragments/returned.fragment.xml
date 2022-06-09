@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:table="sap.ui.table" xmlns:u="sap.ui.unified">
+    <Dialog id="idDialogReturned" title="Reason for Returned:" contentWidth="auto" resizable="true" draggable="true">
+        <VBox class="sapUiResponsiveMargin" >
+            <TextArea id="textAreaWithBinding2" showExceededText="true" value="{infoModel>/commentReturned}" maxLength="255" width="100%" valueState="{= ${/value}.length > 255 ? 'Warning' : 'None' }" valueLiveUpdate="false" liveChange="handleLiveChange" />
+        </VBox>
+        <beginButton>
+            <Button text="Save" press="returnedPR"></Button>
+        </beginButton>
+        <endButton>
+            <Button text="Close"  type="Transparent" press="closeDialog"></Button>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

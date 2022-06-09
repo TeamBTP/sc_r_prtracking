@@ -1,0 +1,54 @@
+{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "route",
+  "sessionTimeout": 30,
+    "logout": {
+        "logoutEndpoint": "/my/logout"
+    },
+  "routes": [
+    {
+        "source": "^/sap/opu/odata/sap/ZSC_WORKSPACE_SRV/",
+        "destination": "AOPDS8160_CLONING",
+        "authenticationType": "xsuaa",
+        "csrfProtection": false
+    },
+    {
+        "source": "^/sap/opu/odata/sap/ZSC_WORKSPACE_PLATINUM_SRV/",
+        "destination": "PlatDVF211",
+        "authenticationType": "xsuaa",
+        "csrfProtection": false
+    },
+    {
+        "source": "^/sc/(.*)$",
+        "target": "/sc/$1",
+        "destination": "SC_WORKSPACE_CAP_DB",
+        "authenticationType": "xsuaa",
+        "csrfProtection": false
+    },
+    {
+        "source": "^/themes/(.*)$",
+        "target": "$1",
+        "service": "com.sap.ui.theming",
+        "endpoint": "runtime"
+    },
+    {
+      "source": "^/resources/(.*)$",
+      "target": "/resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
+    },
+    {
+      "source": "^/test-resources/(.*)$",
+      "target": "/test-resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa",
+      "scope": "$XSAPPNAME.View"
+    }
+  ]
+}

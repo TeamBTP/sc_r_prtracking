@@ -1,0 +1,332 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:table="sap.ui.table">
+    <Dialog id="idDialogEditItem" title="Edit item" contentWidth="auto" resizable="true" draggable="true">
+        <VBox class="sapUiResponsiveMargin" >
+            <f:Form id="idFormEditItem"
+                editable="true">
+                <f:layout>
+                    <f:ColumnLayout
+                        columnsM="2"
+                        columnsL="3"
+                        columnsXL="6"
+                    />
+                </f:layout>
+                <f:formContainers>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement label="* PO Item">
+                                <f:fields>
+                                    <Input editable="false" value="{itemEditModel>/itemPos}" id="idIPOItemEdit"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Account Assignment" >
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        id="idCBAccountAssigmentEdit"
+                                        filterSecondaryValues="true"
+                                        selectedKey="{itemEditModel>/EX_KNTTP}"
+                                        items="{
+                                            path: 'accAsignmentModel>/',
+                                            sorter: { path: 'EX_KNTTX' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{accAsignmentModel>EX_KNTTP}" text="{accAsignmentModel>EX_KNTTX} - {accAsignmentModel>EX_KNTTP}" additionalText = "{accAsignmentModel>EX_KNTTP}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Item Category" >
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        selectedKey="{itemEditModel>/EX_PSTYP}"
+                                        id="idCBItemCategoryEdit"
+                                        items="{
+                                            path: 'itemCategoryNewItemModel>/',
+                                            sorter: { path: 'EX_PTEXT' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{itemCategoryNewItemModel>EX_PSTYP}" text="{itemCategoryNewItemModel>EX_PTEXT} - {itemCategoryNewItemModel>EX_PSTYP}" additionalText = "{itemCategoryNewItemModel>EX_EPSTP}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement label="Material Number">
+                                <f:fields>
+                                    <Input
+                                        id="idMaterialNewItemEdit"
+                                        type="Text"
+                                        showValueHelp="true"
+                                        selectedKey="{itemEditModel>/EX_MATNR}"
+                                        valueHelpRequest="showMaterial"
+                                        suggestionItems="{materialsNewItemModel>/}">                                            
+                                        <suggestionItems>
+                                            <core:ListItem
+                                                key="{materialsNewItemModel>EX_MATNR}"
+                                                text="{materialsNewItemModel>EX_MATNR}"
+                                                additionalText="{materialsNewItemModel>EX_MAKTX}" />
+                                        </suggestionItems>
+                                    </Input>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="* Short Text" >
+                                <f:fields>
+                                    <Input value="{itemEditModel>/EX_TXZ01}" id="idIShortTextEdit"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="* PO Quantity" >
+                                <f:fields>
+                                    <Input value="{itemEditModel>/EX_MENGE}" id="idIPOQuantityEdit"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="* Order Unit">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        id="idCBOrderUnitEdit"
+                                        filterSecondaryValues="true"
+                                        selectedKey="{itemEditModel>/EX_MEINS}"
+                                        items="{
+                                            path: 'orderUnitModel>/',
+                                            sorter: { path: 'EX_MSEH3' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{orderUnitModel>EX_MSEHI}" text="{orderUnitModel>EX_MSEH3} - {orderUnitModel>EX_MSEHT}" additionalText = "{orderUnitModel>EX_MSEHI}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement label="* Delivery Date">
+                                <f:fields>
+                                    <DatePicker
+                                        value="{itemEditModel>/EX_LFDAT}"
+                                        id="idDPDeliveryDateEdit"
+                                        valueFormat="yyyyMMdd"
+                                        displayFormat="yyyy-MM-dd">
+                                    </DatePicker>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="* Net Price">
+                                <f:fields>
+                                    <Input value="{itemEditModel>/EX_PREIS}" id="idINetPriceEdit"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="* Order Price UOM">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        id="idCBOrderPriceUOMEdit"
+                                        selectedKey="{itemEditModel>/EX_BPRME}"
+                                        items="{
+                                            path: 'orderPriceUOMModel>/',
+                                            sorter: { path: 'EX_MSEH3' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{orderPriceUOMModel>EX_MSEHI}" text="{orderPriceUOMModel>EX_MSEH3} - {orderPriceUOMModel>EX_MSEHT}" additionalText = "{orderPriceUOMModel>EX_MSEHI}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement label="* Per" >
+                                <f:fields>
+                                    <Input value="{itemEditModel>/EX_PEINH}" id="idIPerEdit"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="* Currency" >
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        selectedKey="{itemEditModel>/EX_WAERS}"
+                                        id="idCBCurrencyNewItemEdit"
+                                        items="{
+                                            path: 'waersModel>/',
+                                            sorter: { path: 'EX_KTEXT' }                                        
+                                        }" >
+                                        <core:ListItem key="{waersModel>EX_WAERS}" text="{waersModel>EX_KTEXT} - {waersModel>EX_WAERS}" additionalText = "{waersModel>EX_WAERS}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Material Group">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        selectedKey="{itemEditModel>/EX_MATKL}"
+                                        id="idCBMaterialGroupEdit"
+                                        items="{
+                                            path: 'materialGroupModel>/',
+                                            sorter: { path: 'EX_MATKL' }                                        
+                                        }">
+                                        <core:ListItem key="{materialGroupModel>EX_MATKL}" text="{materialGroupModel>EX_MATKL} - {materialGroupModel>EX_WGBEZ}" additionalText = "{materialGroupModel>EX_WGBEZ}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement label="* Plant">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        selectedKey="{itemEditModel>/EX_WERKS}"
+                                        id="idCBPlantEdit"
+                                        items="{
+                                            path: 'plantNewItemModel>/',
+                                            sorter: { path: 'EX_NAME1' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{plantNewItemModel>EX_WERKS}" text="{plantNewItemModel>EX_NAME1} - {plantNewItemModel>EX_WERKS}" additionalText = "{plantNewItemModel>EX_WERKS}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Storage Location">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        selectedKey="{itemEditModel>/EX_LGORT}"
+                                        id="idCBStorageLocationEdit"
+                                        items="{
+                                            path: 'stoLocationNewItemModel>/',
+                                            sorter: { path: 'EX_LGOBE' }                                        
+                                        }">
+                                        <core:ListItem key="{stoLocationNewItemModel>EX_LGORT}" text="{stoLocationNewItemModel>EX_LGOBE} - {stoLocationNewItemModel>EX_LGORT}" additionalText = "{stoLocationNewItemModel>EX_LGORT}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Requisitioner">
+                                <f:fields>
+                                    <Input value="{itemEditModel>/EX_AFNAM}" id="idIRequisitionerEdit" />
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement >
+                                <f:fields>
+                                    <CheckBox text="Return Item" id="idIReturnItemEdit" selected="{itemEditModel>/EX_RETPO}"/>
+                                    <CheckBox text="Free" id="idIFreeEdit" selected="{itemEditModel>/EX_UMSON}"/>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Purchase Req. Number">
+                                <f:fields>
+                                    <Input
+                                        id="idPRNewItemEdit"
+                                        type="Text"
+                                        showValueHelp="true"
+                                        selectedKey="{itemEditModel>/EX_BANFN}"
+                                        valueHelpRequest="showPRNumber"
+                                        suggestionItems="{purchReqNumberModel>/}">                                            
+                                        <suggestionItems>
+                                            <core:ListItem
+                                                key="{purchReqNumberModel>EX_BANFN}"
+                                                text="{purchReqNumberModel>EX_BANFN}"/>
+                                        </suggestionItems>
+                                    </Input>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Purchase Req. Item">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        enabled="false"
+                                        filterSecondaryValues="true"
+                                        selectedKey="{itemEditModel>/EX_BNFPO}"
+                                        change="selectPRItemEdit"
+                                        id="idCBPurchReqItemEdit"
+                                        items="{
+                                            path: 'purchReqItemModel>/',
+                                            sorter: { path: 'EX_BNFPO' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{purchReqItemModel>EX_BNFPO}" text="{purchReqItemModel>EX_BNFPO} - {purchReqItemModel>EX_TXZ01}"  additionalText = "{purchReqItemModel>EX_TXZ01}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement label="Outline Agreement">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        selectedKey="{itemEditModel>/EX_KONNR}"
+                                        id="idCBOutlineAgreementEdit"
+                                        change="selectOutlineAgreementEdit"
+                                        items="{
+                                            path: 'outlineAgreementNumberModel>/',
+                                            sorter: { path: 'EX_EBELN' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{outlineAgreementNumberModel>EX_EBELN}" text="{outlineAgreementNumberModel>EX_EBELN}" />
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Outline Agreement Item">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        selectedKey="{itemEditModel>/EX_KTPNR}"
+                                        enabled="false"
+                                        id="idCBOutlineAgreementPosEdit"
+                                        items="{
+                                            path: 'outlineAgreementPosModel>/',
+                                            sorter: { path: 'EX_EBELP' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{outlineAgreementPosModel>EX_EBELP}" text="{outlineAgreementPosModel>EX_EBELP} - {outlineAgreementPosModel>EX_TXZ01}"  additionalText = "{outlineAgreementPosModel>EX_TXZ01}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="RFQ Number">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        enabled="false"
+                                        selectedKey="{itemEditModel>/EX_ANFNR}"
+                                        id="idCBRFQNumberEdit"
+                                        items="{
+                                            path: 'rfqNumberModel>/',
+                                            sorter: { path: 'EX_EBELN' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{rfqNumberModel>EX_EBELN}" text="{rfqNumberModel>EX_EBELN}" />
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="RFQ Item">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        enabled="false"
+                                        selectedKey="{itemEditModel>/EX_ANFPS}"
+                                        id="idCBRFQItemEdit"
+                                        items="{
+                                            path: 'rfqItemModel>/',
+                                            sorter: { path: 'EX_EBELP' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{rfqItemModel>EX_EBELP}" text="{rfqItemModel>EX_EBELP} - {rfqItemModel>EX_EBELN}"  additionalText = "{rfqItemModel>EX_EBELN}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            
+                        </f:formElements>
+                    </f:FormContainer>
+                </f:formContainers>
+            </f:Form>
+        </VBox>
+        <beginButton>
+            <Button text="Edit" press="editItem"></Button>
+        </beginButton>
+        <endButton>
+            <Button text="Close"  type="Reject" press="closeDialog"></Button>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

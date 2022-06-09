@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Services"
+		items="{
+            path: 'servicesModel>/',
+            sorter: { path: 'EX_ASKTX' }                                        
+        }" 
+		search="searchServices"
+		confirm="_handleValueHelpClose"
+		cancel="_handleValueHelpClose">
+		<StandardListItem
+			iconDensityAware="false"
+			iconInset="false"
+			title="{servicesModel>EX_ASKTX}"
+            description="{servicesModel>EX_ASNUM}"/>
+	</SelectDialog>
+</core:FragmentDefinition>

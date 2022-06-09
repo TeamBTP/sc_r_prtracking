@@ -1,0 +1,774 @@
+<mvc:View
+    controllerName="scr.prtracking.controller.View1"
+    xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" xmlns:common="sap.suite.ui.commons"
+	xmlns:tnt="sap.tnt" height="100%" width="100%" class="side-navigation-demo" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f2="sap.f"
+	xmlns:demo="spportal.control" xmlns:custom="sap.ui.core.CustomData" xmlns:micro="sap.suite.ui.microchart" xmlns:f="sap.ui.layout.form" xmlns:table="sap.ui.table" xmlns:u="sap.ui.unified"
+>
+	<Shell id="shell" backgroundColor="">
+        <App id="app">
+            <pages>
+                <tnt:ToolPage >
+                    <tnt:header>
+                        <f2:ShellBar id="oShellBar" title="Purchase Requisitions Tracking"  secondTitle="{i18n>version}" homeIcon="/demoportalgddemoportalgd/images/logo.svg" showCopilot="false"
+                            showNotifications="false"  showProductSwitcher="false" notificationsNumber="0" class="backShell"
+                            showSearch="false" avatarPressed="logout">
+                            <f2:profile>
+                                <Avatar id="idAvatar" initials="{modelUser>/initials}" press="showEmail"/>
+                            </f2:profile>                            
+                        </f2:ShellBar>
+                    </tnt:header>
+                    <tnt:subHeader >
+                        <FlexBox class="sapUiMediumMargin" >
+                            <FlexBox direction="Column" alignItems="Stretch" class="sapUiSmallMarginBegin">
+                                    <Title text="PR Tracking" level="H1" class="oTitle_custom"></Title>
+                                    <HBox >
+                                        <Text text="Workspaces"/>
+                                        <Text text="/" class="sapUiTinyMarginBegin sapUiTinyMarginEnd"/>
+                                        <Text text="Requester Workspace"/>
+                                        <Text text="/" class="sapUiTinyMarginBegin sapUiTinyMarginEnd"/>
+                                        <Text text="PR Tracking"/>
+                                    </HBox>
+                                    <!-- <Breadcrumbs currentLocationText="Purchase Requisitions" separatorStyle="Slash">
+                                        <Link press="onPress" text="Workspaces"/>
+                                        <Link press="onPress" text="Buyer Workspace"/>
+                                    </Breadcrumbs> -->
+                                </FlexBox>
+                        </FlexBox>
+                    </tnt:subHeader>
+                    <tnt:mainContents>
+                        <!-- <VBox class="sapUiSmallMargin">
+                                        <Input id="idNotifNumber" placeholder="notification number" width="225px" />	
+                                        <u:FileUploader
+                                            id="fileUploader"
+                                            name="myFileUpload"
+                                            width="340px"
+                                            uploadUrl="upload/"
+                                            tooltip="Upload your file to the local server"
+                                            change="onChange"/>
+                                        <Button
+                                            text="Upload File"
+                                            press="onConfirm"/>
+                                    </VBox> -->
+                        <ScrollContainer
+                                    horizontal="false"
+                                    vertical="true"
+                                    height="100%">
+                            <Panel id="expandablePanel" backgroundDesign="Solid" expandable="true" expand="onExpand" width="auto" class="sapUiResponsiveMargin">
+                                <headerToolbar>
+                                    <OverflowToolbar active="true" press="onOverflowToolbarPress">
+                                        <Title text="Search Parameters" />
+                                        <ToolbarSpacer />
+                                        <Switch id="idSData" state="true" change="loaderModels" customTextOn="AOP" customTextOff="PLATINUM" />
+                                        <Button text="Set Filters as Default" press="setFiltersDefault" />
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <content>   
+                                    <core:Fragment fragmentName="scr.prtracking.fragments.prtracking.filterBar" type="XML" id="idFragmentFilterBar"/>
+                                </content>
+                            </Panel>
+                            <VBox class="sapUiResponsiveMargin">
+                                <IconTabBar id="idIconTabBarMulti" applyContentPadding="true" expandable="false" expanded="false" class="sapUiResponsiveContentPadding" select="selectIconTabFilter">
+                                    <items>
+                                    <IconTabFilter text="PR lines" count="{infoModel>/countPR}" showAll="true"  key="Resultado"></IconTabFilter>
+                                    <!-- <IconTabSeparator/> -->
+                                    <!-- <IconTabFilter id="idTabFilterRequestMoreInfo" icon="sap-icon://message-information" text="Request More Info" key="requestMoreInfo" showAll="true"></IconTabFilter> -->
+                                    </items>
+                                </IconTabBar>
+                            </VBox>
+                            <VBox class="sapUiResponsiveMargin" >
+                                <table:Table
+                                    id="idTablePR"
+                                    filter="adjustTable"
+                                    enableColumnReordering="true"
+                                    rows="{purchReqModel>/}"
+                                    selectionMode="MultiToggle"
+                                    rowsUpdated="update"
+                                    threshold="15"
+                                    busyStateChanged=""
+                                    enableGrouping="true"
+				                    enableBusyIndicator="true"
+                                    visibleRowCount="{infoModel>/countPRVisible}">
+                                    <table:extension>
+                                        <OverflowToolbar id="idOverflowTable" style="Clear">
+                                            <CheckBox id="idChPR" text="PR" select="filterStatus"/>
+                                            <CheckBox id="idChSES" text="SES" select="filterStatus"/>
+                                            <CheckBox id="idChPO" text="PO" select="filterStatus"/>
+                                            <ToolbarSpacer/>
+                                            <!-- <CheckBox id="idChBA" text="Approved" select="filterStatus" valueState="Success" selected="true" /> -->
+                                            <CheckBox id="idChApprovalMe" text="Approval by Me" select="filterStatus" valueState="Success" />
+                                            <CheckBox id="idChApprovalOthers" text="Approval by Others" select="filterStatus" valueState="Warning" />
+                                            <CheckBox id="idChBR" text="Returned" select="filterStatus" valueState="Error" />
+                                            <CheckBox id="idChRejected" text="Rejected" select="filterStatus" valueState="Error" />
+                                            <Button id="idBSettings" icon="sap-icon://action-settings" type="Transparent" press="onPersoButtonPressed"/>
+                                            <Button id="idBSort" icon="sap-icon://sort" type="Transparent" press="handleSortButtonPressed" tooltip="Sort ascending across Delivery Date"/>
+                                            <Button type="Transparent" tooltip="Group" icon="sap-icon://group-2" press="handleGroupButtonPressed"/>
+                                            <Button icon="sap-icon://excel-attachment" type="Transparent" press="exportWorksheet" tooltip="Export as Excel"/>
+                                        </OverflowToolbar>
+                                    </table:extension>
+                                    <table:columns>
+                                        <table:Column resizable="true" id="idColumnDD" width="11rem" hAlign="Center" filterProperty="EX_LFDAT">
+                                            <Label text="{i18n>deliveryDate}" />
+                                            <table:template>
+                                                <Text text="{path: 'purchReqModel>EX_LFDAT', formatter: '.Formatter.formatDate'}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <!-- <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_DAYSREL">
+                                            <Label text="{i18n>daysSinceRelease}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_DAYSREL}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column> -->
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_BANFN">
+                                            <Label text="{i18n>purchaseRequisition}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_BANFN}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_BNFPO">
+                                            <Label text="{i18n>item}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_BNFPO}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_AUFNR">
+                                            <Label text="{i18n>workOrderNumber}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_AUFNR}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="reqType">
+                                            <Label text="{i18n>requestType}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>reqType}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_MATNR">
+                                            <Label text="{i18n>materialNumber}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_MATNR}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_TXZ01">
+                                            <Label text="{i18n>itemDescription}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_TXZ01}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_MFRPN" visible="false">
+                                            <Label text="{i18n>manufacturingPart}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_MFRPN}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_MATKL">
+                                            <Label text="{i18n>materialGroup}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_MATKL}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_PSTYP">
+                                            <Label text="{i18n>itemCategory}" />
+                                            <table:template>
+                                                <VBox>
+                                                    <Text text="{purchReqModel>EX_PSTYP}" visible="{purchReqModel>textICVisible}" wrapping="false" />
+                                                    <core:Icon
+                                                        color="#5c91c6"
+                                                        src="sap-icon://add-equipment"
+                                                        visible="{purchReqModel>iconICVisible}"
+                                                        press="showPRServices">
+                                                    </core:Icon>
+                                                    <core:Icon
+                                                        src="sap-icon://product"
+                                                        visible="{purchReqModel>iconIC2Visible}">
+                                                    </core:Icon>
+                                                </VBox>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>supplier}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_AFNAM">
+                                            <Label text="{i18n>requisitioner}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_AFNAM}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_ERNAM" visible="false">
+                                            <Label text="{i18n>createdBy}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_ERNAM}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="outlineAgreement" visible="false">
+                                            <Label text="{i18n>outlineAgreement}" />
+                                            <table:template>
+                                                <CheckBox selected="{purchReqModel>outlineAgreement}" editable="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_KTPNR" visible="false">
+                                            <Label text="{i18n>contractItem}" />
+                                            <table:template>
+                                                <!-- <CheckBox selected="{purchReqModel>EX_KTPNR}" editable="false" /> -->
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" id="idColumnCC" width="11rem" hAlign="Center" filterProperty="EX_BUKRS" visible="false">
+                                            <Label text="{i18n>companyCode}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_BUKRS}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_WERKS">
+                                            <Label text="{i18n>plant}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_WERKS}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_MENGE" visible="false">
+                                            <Label text="{i18n>quantityRequested}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_MENGE}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_LGORT" visible="false">
+                                            <Label text="{i18n>storageLocation}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_LGORT}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_WAERS" visible="false">
+                                            <Label text="{i18n>currency}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_WAERS}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_PREIS">
+                                            <Label text="{i18n>valuationPrice}" />
+                                            <table:template>
+                                                <Text text="{path: 'purchReqModel>EX_PREIS', formatter: '.Formatter.formatCurrency'}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="totalValue">
+                                            <Label text="{i18n>totalValue}" />
+                                            <table:template>
+                                                <Text text="{path: 'purchReqModel>totalValue', formatter: '.Formatter.formatCurrency'}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_KOSTL">
+                                            <Label text="{i18n>costCenter}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_KOSTL}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_ATTACH">
+                                            <Label text="{i18n>attachment}" />
+                                            <table:template>
+                                                <ObjectStatus
+                                                    text="{purchReqModel>EX_ATTACH}"
+                                                    inverted="true"
+                                                    active="true"
+                                                    press="showAttachment"
+                                                    state="Information" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_SAKTO" visible="false">
+                                            <Label text="{i18n>GLAccount}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_SAKTO}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_PS_PSP_PNR" visible="false">
+                                            <Label text="{i18n>WBSElement}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_PS_PSP_PNR}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_DAYSREL">
+                                            <Label text="{i18n>daysAgeing}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_DAYSREL}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>statusPR}" />
+                                            <table:template>
+                                                <common:MicroProcessFlow>
+                                                    <common:content>
+                                                        <common:MicroProcessFlowItem id="idMicroProcess1" state="{purchReqModel>status1}" visible="{purchReqModel>status_visible1}" press="itemPress">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>code1}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip1}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>user1}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mail1}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcess2" state="{purchReqModel>status2}" visible="{purchReqModel>status_visible2}" press="itemPress">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>code2}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip2}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>user2}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mail2}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcess3" state="{purchReqModel>status3}" visible="{purchReqModel>status_visible3}" press="itemPress">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>code3}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip3}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>user3}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mail3}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcess4" state="{purchReqModel>status4}" visible="{purchReqModel>status_visible4}" press="itemPress">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>code4}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip4}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>user4}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mail4}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcess5" state="{purchReqModel>status5}" visible="{purchReqModel>status_visible5}" press="itemPress">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>code5}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip5}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>user5}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mail5}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcess6" state="{purchReqModel>status6}" visible="{purchReqModel>status_visible6}" press="itemPress">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>code6}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip6}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>user6}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mail6}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcess7" state="{purchReqModel>status7}" visible="{purchReqModel>status_visible7}" press="itemPress">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>code7}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip7}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>user7}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mail7}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcess8" state="{purchReqModel>status8}" visible="{purchReqModel>status_visible8}" press="itemPress">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>code8}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip8}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>user8}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mail8}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                    </common:content>
+                                                </common:MicroProcessFlow>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>approveReject}" />
+                                            <table:template>
+                                                <HBox justifyContent="Center" >
+                                                    <Button icon="sap-icon://edit" class="sapUiTinyMargin" press="showApproveReject"/>
+                                                    <Button icon="sap-icon://accept" type="Accept" press="approvePO" class="sapUiTinyMargin" visible="false"/>
+                                                    <Button icon="sap-icon://decline" type="Reject" press="rejectPO" class="sapUiTinyMargin" visible="false"/>
+                                                    <Button icon="sap-icon://undo" type="Ghost" press="hideApproveReject" class="sapUiTinyMargin" visible="false"/>
+                                                </HBox>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>returned}" />
+                                            <table:template>
+                                                <ObjectStatus
+                                                    class="sapUiTinyMargin"
+                                                    text="{purchReqModel>returned}"
+                                                    inverted="true"
+                                                    active="true"
+                                                    press="showReasonReturned"
+                                                    state="{purchReqModel>returnedState}" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>comments}" />
+                                            <table:template>
+                                                <ObjectStatus
+                                                    active="true"
+                                                    icon="sap-icon://comment"
+                                                    state="{purchReqModel>statusComment}"
+                                                    press="showComment" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>requestMoreInfo}" />
+                                            <table:template>
+                                                <ObjectStatus
+                                                    active="true"
+                                                    icon="sap-icon://request"
+                                                    press="showRequestMoreInfo" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_EBELN">
+                                            <Label text="{i18n>poNumber}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_EBELN}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_EBELP">
+                                            <Label text="{i18n>poItem}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_EBELP}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="poStatus">
+                                            <Label text="{i18n>poStatus}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>poStatus}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" >
+                                            <Label text="{i18n>expeditingFeedback}" />
+                                            <table:template>
+                                                <ObjectStatus
+                                                    active="{purchReqModel>activeES}"
+                                                    icon="{purchReqModel>iconStatusES}"
+                                                    state="{purchReqModel>statusES}"
+                                                    press="showExpediteText" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_GRV_VALUE" visible="false">
+                                            <Label text="{i18n>GRVValue}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_GRV_VALUE}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>GRVStatus}" />
+                                            <table:template>
+                                                <ObjectStatus
+                                                    icon="{purchReqModel>iconGRV}"
+                                                    state="{purchReqModel>statusGRV}" 
+                                                    tooltip="{purchReqModel>tooltipGRVStatus}"/>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_SES_NUMBER">
+                                            <Label text="{i18n>SESNumber}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_SES_NUMBER}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_SES_ATTACH">
+                                            <Label text="{i18n>SESAttachments}" />
+                                            <table:template>
+                                                <ObjectStatus
+                                                    text="{purchReqModel>EX_SES_ATTACH}"
+                                                    inverted="true"
+                                                    active="true"
+                                                    press="showAttachmentSES"
+                                                    state="Information" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_SES_CAPT_VALUE" visible="false">
+                                            <Label text="{i18n>SESCapturedValue}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_SES_CAPT_VALUE}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_SES_APPRO_STATUS">
+                                            <Label text="{i18n>SESApprovalStatus}" />
+                                            <table:template>
+                                                <common:MicroProcessFlow>
+                                                    <common:content>
+                                                        <common:MicroProcessFlowItem id="idMicroProcessSES1" state="{purchReqModel>statusSES1}"  showSeparator="{purchReqModel>visibleSeparetor1}" visible="{purchReqModel>statusSES_visible1}" press="itemPressSES">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>codeSES1}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip1}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>userSES1}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mailSES1}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED_SES}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcessSES2" state="{purchReqModel>statusSES2}" showSeparator="{purchReqModel>visibleSeparetor2}" visible="{purchReqModel>statusSES_visible2}" press="itemPressSES">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>codeSES2}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip2}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>userSES2}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mailSES2}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED_SES}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcessSES3" state="{purchReqModel>statusSES3}" showSeparator="{purchReqModel>visibleSeparetor3}" visible="{purchReqModel>statusSES_visible3}" press="itemPressSES">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>codeSES3}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip3}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>userSES3}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mailSES3}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED_SES}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcessSES4" state="{purchReqModel>statusSES4}" showSeparator="{purchReqModel>visibleSeparetor4}" visible="{purchReqModel>statusSES_visible4}" press="itemPressSES">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>codeSES4}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip4}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>userSES4}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mailSES4}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED_SES}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcessSES5" state="{purchReqModel>statusSES5}" showSeparator="{purchReqModel>visibleSeparetor5}" visible="{purchReqModel>statusSES_visible5}" press="itemPressSES">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>codeSES5}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip5}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>userSES5}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mailSES5}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED_SES}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcessSES6" state="{purchReqModel>statusSES6}" showSeparator="{purchReqModel>visibleSeparetor6}" visible="{purchReqModel>statusSES_visible6}" press="itemPressSES">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>codeSES6}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip6}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>userSES6}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mailSES6}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED_SES}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcessSES7" state="{purchReqModel>statusSES7}" showSeparator="{purchReqModel>visibleSeparetor7}" visible="{purchReqModel>statusSES_visible7}" press="itemPressSES">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>codeSES7}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip7}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>userSES7}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mailSES7}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED_SES}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                        <common:MicroProcessFlowItem id="idMicroProcessSES8" state="{purchReqModel>statusSES8}" showSeparator="{purchReqModel>visibleSeparetor8}" visible="{purchReqModel>statusSES_visible8}" press="itemPressSES">
+                                                            <common:customData>
+                                                                <core:CustomData key="cod" value="{purchReqModel>codeSES8}"/>
+                                                                <core:CustomData key="descrip" value="{purchReqModel>descrip8}"/>
+                                                                <core:CustomData key="user" value="{purchReqModel>userSES8}"/>
+                                                                <core:CustomData key="mail" value="{purchReqModel>mailSES8}"/>
+                                                                <core:CustomData key="reason" value="{purchReqModel>COMMENT_REJECTED_SES}"/>
+                                                            </common:customData>
+                                                        </common:MicroProcessFlowItem>
+                                                    </common:content>
+                                                </common:MicroProcessFlow>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>approveRejectSES}" />
+                                            <table:template>
+                                                <HBox justifyContent="Center" >
+                                                    <Button icon="sap-icon://edit" class="sapUiTinyMargin" press="showApproveReject"/>
+                                                    <Button icon="sap-icon://accept" type="Accept" press="approvePRSES" class="sapUiTinyMargin" visible="false"/>
+                                                    <Button icon="sap-icon://decline" type="Reject" press="rejectPRSES" class="sapUiTinyMargin" visible="false"/>
+                                                    <Button icon="sap-icon://undo" type="Ghost" press="hideApproveReject" class="sapUiTinyMargin" visible="false"/>
+                                                </HBox>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_INV_REC_VALUE" visible="false">
+                                            <Label text="{i18n>invoicedReceivedValue}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_INV_REC_VALUE}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" >
+                                            <Label text="{i18n>invoicedReceivedStatus}" />
+                                            <table:template>
+                                                <ObjectStatus
+                                                    icon="{purchReqModel>iconInvoiceReceived}"
+                                                    state="{purchReqModel>statusInvoiceReceived}"
+                                                    tooltip="{purchReqModel>tooltipInvoice}" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_LOEKZ" visible="false">
+                                            <Label text="{i18n>deletionIndicator}" />
+                                            <table:template>
+                                                <CheckBox selected="{path: 'purchReqModel>EX_LOEKZ', formatter: '.Formatter.formatSelected'}" editable="false" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+
+
+                                        <!-- <table:Column resizable="true" width="11rem" hAlign="Center" >
+                                            <Label text="{i18n>sourceSupplier}" />
+                                            <table:template>
+                                                <VBox>
+                                                    <ObjectStatus
+                                                        visible="{purchReqModel>checkVisible}"
+                                                        icon="sap-icon://accept"
+                                                        inverted="true"
+                                                        state="Success" />
+                                                    <core:Icon
+                                                        src="sap-icon://inspect"
+                                                        visible="{purchReqModel>buttonVisible}"
+                                                        press="showPRSource" >
+                                                    </core:Icon>
+                                                </VBox>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_FLIEF" sortProperty="EX_FLIEF">
+                                            <Label text="{i18n>fixedVendor}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_FLIEF}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_LIFNR" sortProperty="EX_LIFNR">
+                                            <Label text="{i18n>desiredVendor}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_LIFNR}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_EKGRP" visible="false">
+                                            <Label text="{i18n>purchasingGroup}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_EKGRP}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_EKORG" visible="false">
+                                            <Label text="{i18n>purchOrganization}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_EKORG}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column id="idCAgent" resizable="true" width="11rem" hAlign="Center" filterProperty="EX_OBJID" visible="false">
+                                            <Label text="{i18n>agent}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_OBJID}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        
+                                        
+                                        
+                                        <table:Column resizable="true" width="11rem" hAlign="Center">
+                                            <Label text="{i18n>status}" />
+                                            <table:template>
+                                                <HBox justifyContent="Start">
+                                                    <ObjectStatus
+                                                    class="sapUiTinyMargin"
+                                                    text="{purchReqModel>overdue}"
+                                                    inverted="true"
+                                                    state="Error" />
+                                                    <ObjectStatus
+                                                    class="sapUiTinyMargin"
+                                                    text="{purchReqModel>updated}"
+                                                    inverted="true"
+                                                    state="Information" />
+                                                    <ObjectStatus
+                                                    class="sapUiTinyMargin"
+                                                    text="{purchReqModel>returned}"
+                                                    inverted="true"
+                                                    active="true"
+                                                    press="showReasonReturned"
+                                                    state="{purchReqModel>returnedState}" />
+                                                </HBox>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="indicator">
+                                            <Label text="{i18n>indicator}" />
+                                            <table:template>
+                                                <ObjectStatus
+                                                    text="{purchReqModel>indicator}"
+                                                    inverted="true"
+                                                    state="None" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>PPAStatusDescription}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>comments}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>headerNote}" />
+                                            <table:template>
+                                                <core:Icon
+                                                    src="sap-icon://vds-file"
+                                                    press="showHeaderNote">
+                                                </core:Icon>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>deliveryNote}" />
+                                            <table:template>
+                                                <core:Icon
+                                                    src="sap-icon://vds-file"
+                                                    press="showDeliveryNote">
+                                                </core:Icon>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="">
+                                            <Label text="{i18n>itemText}" />
+                                            <table:template>
+                                                <core:Icon
+                                                    src="sap-icon://vds-file"
+                                                    press="showItemText">
+                                                </core:Icon>
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_KNTTP" visible="false">
+                                            <Label text="{i18n>acctAssignmentCat}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_KNTTP}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        
+                                        
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="" visible="false">
+                                            <Label text="{i18n>requestStatus}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="" visible="false">
+                                            <Label text="{i18n>acquisitionType}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_ZZACQTYP}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column id="idCRequirementUrgency" resizable="true" width="11rem" hAlign="Center" filterProperty="EX_ZZREQURG" visible="true">
+                                            <Label text="{i18n>requirementUrgency}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_ZZREQURG}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column>
+                                        <table:Column resizable="true" width="11rem" hAlign="Center" filterProperty="EX_IDNLF" visible="true">
+                                            <Label text="{i18n>supplierMaterialNumber}" />
+                                            <table:template>
+                                                <Text text="{purchReqModel>EX_IDNLF}" wrapping="false" />
+                                            </table:template>
+                                        </table:Column> -->
+                                    </table:columns>
+                                    <table:footer>
+                                        <OverflowToolbar id="infobar">
+                                            <ToolbarSpacer />
+                                            <Label text="Fixed column count"/>
+                                            <Input
+                                                value="2"
+                                                id="inputColumn"
+                                                width="20%"/>
+                                            <Button text="Apply" press="applyFreezeTable"/>
+                                        </OverflowToolbar>
+                                    </table:footer>
+                                </table:Table>
+                            </VBox>
+                        </ScrollContainer>
+                    </tnt:mainContents>
+                </tnt:ToolPage>
+            </pages>
+        </App>
+    </Shell>
+</mvc:View>

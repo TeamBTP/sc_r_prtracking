@@ -1,0 +1,12 @@
+{
+    "authenticationMethod": "none",
+    "routes": [
+        {
+            "source": "^/themes/(.*)$",
+            "target": "$1",
+            "service": "com.sap.ui.theming",
+            "endpoint": "runtime"
+        }
+    ],
+    "welcomeFile": "/scrprtracking"
+}

@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "2.5"
+metadata:
+  name: scr.prtracking
+type: application
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+        backend:
+          - path: /sap
+            url: http://gszajnb782.anglo.local:8000
+            client: '160'
+            destination: AOPDS8160_CLONING
+          - path: /sap
+            url: http://gszapkl6504.anglo.local:8011
+            client: '211'
+            destination: PlatDVF211
+          - path: /sc
+            url: https://aopl-cfanglodev-sc-workspace-sc-workspace-srv.cfapps.eu10.hana.ondemand.com/
+            destination: SC_WORKSPACE_CAP_DB
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        component: scr.prtracking
+        ui5Theme: sap_fiori_3

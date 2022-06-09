@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Material"
+		items="{
+            path: 'materialsNewItemModel>/',
+            sorter: { path: 'EX_MAKTX' }                                        
+        }" 
+		search="searchMaterial"
+		confirm="_handleValueHelpCloseMaterial"
+		cancel="_handleValueHelpCloseMaterial">
+		<StandardListItem
+			iconDensityAware="false"
+			iconInset="false"
+			title="{materialsNewItemModel>EX_MAKTX}"
+			description="{materialsNewItemModel>EX_MATNR}" />
+	</SelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,51 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:table="sap.ui.table">
+    <Dialog id="idDialogAttachment" title="Attachments for Purchase Requisition {attachmentModel>/BANFN}" contentWidth="auto" resizable="true" draggable="true">
+        <VBox class="sapUiResponsiveMargin" >
+            <table:Table
+                selectionMode="None"
+                rows="{attachmentModel>/}"
+                visibleRowCount="{infoModel>/countAttachment}">
+                <!-- <table:extension>
+                    <OverflowToolbar style="Clear">
+                        <Title id="title" text="Products"/>
+                    </OverflowToolbar>
+                </table:extension> -->
+                <table:columns>
+                    <table:Column width="auto">
+                        <Label text="File Name" />
+                        <table:template>
+                            <Text text="{attachmentModel>EX_DESCRIPT}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Created By" />
+                        <table:template>
+                            <Text text="{attachmentModel>EX_CREA_USER}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Creation Date" />
+                        <table:template>
+                            <Text text="{path: 'attachmentModel>EX_CREA_TIME', formatter: '.Formatter.formatDate'}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Type" />
+                        <table:template>
+                            <Text text="{attachmentModel>EX_DOCUCLASS}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Download" />
+                        <table:template>
+                        <Button icon="sap-icon://download" type="Default" press="downloadAttachment"></Button>
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </VBox>
+        <endButton>
+            <Button text="Close"  type="Reject" press="closeDialog"></Button>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

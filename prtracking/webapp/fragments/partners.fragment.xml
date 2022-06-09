@@ -1,0 +1,59 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:table="sap.ui.table">
+    <Dialog id="idDialogPartners" title="New Partner" contentWidth="auto" resizable="true" draggable="true">
+        <VBox class="sapUiResponsiveMargin" >
+            <f:Form id="idFormPartners"
+                editable="true">
+                <f:layout>
+                    <f:ColumnLayout
+                        columnsM="1"
+                        columnsL="1"
+                        columnsXL="1"
+                    />
+                </f:layout>
+                <f:formContainers>
+                    <f:FormContainer>
+                        <f:formElements>
+                            <f:FormElement label="Partner Function">
+                                <f:fields>
+                                    <ComboBox showSecondaryValues="true"
+                                        filterSecondaryValues="true"
+                                        id="idCBPartnerFunction"
+                                        items="{
+                                            path: 'partnerFunctionModel>/',
+                                            sorter: { path: 'EX_VTEXT' }                                        
+                                        }" 
+                                        >
+                                        <core:ListItem key="{partnerFunctionModel>EX_PARVW}" text="{partnerFunctionModel>EX_VTEXT} - {partnerFunctionModel>EX_PARVW}" additionalText = "{partnerFunctionModel>EX_PARVW}"/>
+                                    </ComboBox>
+                                </f:fields>
+                            </f:FormElement>
+                            <f:FormElement label="Number">
+                                <f:fields>
+                                    <Input
+                                        id="idCBPartnerNumber"
+                                        type="Text"
+                                        showValueHelp="true"
+                                        valueHelpRequest="showPartnerNumber"
+                                        suggestionItems="{partnerNumberModel>/}">                                            
+                                        <suggestionItems>
+                                            <core:ListItem
+                                                key="{partnerNumberModel>EX_LIFNR}"
+                                                text="{partnerNumberModel>EX_MCOD1}"
+                                                additionalText="{partnerNumberModel>EX_LIFNR}" />
+                                        </suggestionItems>
+                                    </Input>
+                                </f:fields>
+                            </f:FormElement>
+                        </f:formElements>
+                    </f:FormContainer>
+                </f:formContainers>
+            </f:Form>
+        </VBox>
+        <beginButton>
+            <Button text="Add" press="addPartner"></Button>
+        </beginButton>
+        <endButton>
+            <Button text="Close"  type="Reject" press="closeDialog"></Button>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

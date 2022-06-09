@@ -1,0 +1,104 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:table="sap.ui.table">
+    <Dialog id="idDialogPRSource" title="Assign Source of Supply:" contentWidth="auto" resizable="true" draggable="true">
+        <VBox class="sapUiResponsiveMargin" >
+            <Text class="sapUiTinyMargin" text="[{infoModel>/itemNumber}] {infoModel>/materialNumber}, {infoModel>/shortText} "/>
+            <table:Table
+                id="idTableSource"
+                selectionMode="Single"
+                rows="{prSourceModel>/}"
+                visibleRowCount="{infoModel>/countPRSource}">
+                <!-- <table:extension>
+                    <OverflowToolbar style="Clear">
+                        <Title id="title" text="Products"/>
+                    </OverflowToolbar>
+                </table:extension> -->
+                <table:columns>
+                    <table:Column width="auto">
+                        <Label text="Supplier" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_FIXED_VEND}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="PPL" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_SUPPL_PLNT}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Name" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_NAME1}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Info / Agreement" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_INFO_REC}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Item" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_AGMT_ITEM}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Net Price" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_NETPR}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Currency" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_WAERS}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="OUn" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_PO_UNIT}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Document Date" />
+                        <table:template>
+                            <Text text="{path: 'prSourceModel>EX_BEDAT', formatter: '.Formatter.formatDate'}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Purchasing Organization" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_PURCH_ORG}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Plant" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_WERKS}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="MPN Material" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_EMATN}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="auto">
+                        <Label text="Text for Item Category" />
+                        <table:template>
+                            <Text text="{prSourceModel>EX_PTEXT}" wrapping="false" />
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </VBox>
+        <beginButton>
+            <Button text="Select" press="selectVendor"></Button>
+        </beginButton>
+        <endButton>
+            <Button text="Close"  type="Transparent" press="closeDialog"></Button>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

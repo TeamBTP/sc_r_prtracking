@@ -1,0 +1,16 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:table="sap.ui.table" xmlns:u="sap.ui.unified">
+    <Dialog id="idDialogExternalUrl" title="External Document (URL):" contentWidth="auto" resizable="true" draggable="true">
+        <VBox class="sapUiResponsiveMargin" >
+            <Label text="Title"/>
+            <Input id="idTitleUrl" type="Text"/>
+            <Label text="Url"/>
+            <Input id="idUrl" type="Url"/>
+        </VBox>
+        <beginButton>
+            <Button text="Upload URL" press="uploadURL"></Button>
+        </beginButton>
+        <endButton>
+            <Button text="Close"  type="Transparent" press="closeDialog"></Button>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

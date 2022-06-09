@@ -1,0 +1,42 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Popover
+		id="commentPopover"
+		title="Comments PR {infoModel>/BANFNComment}"
+        contentWidth="40%"
+		placement="Auto">
+        <content>
+            <!-- <VBox class="sapUiSmallMargin">
+                <Title text="hola" titleStyle="H3" />
+                <Title text="text2" titleStyle="H6" />
+            </VBox>
+            <VBox class="sapUiSmallMargin">
+                <Text text="Date: {path: 'expeditingModel>/0/EX_EXPEDITE_DATE', formatter: '.Formatter.formatDate'}" />
+            </VBox> -->
+            <List
+				items="{
+            path: 'commentPR>/COMMENT',
+            sorter: { path: 'date', descending: true }                                        
+        }"  >
+				<FeedListItem
+					sender="{commentPR>user}"
+					info="Date"
+					timestamp="{commentPR>date}"
+					text="{commentPR>body}"
+					convertLinksToAnchorTags="All">
+					<FeedListItemAction text="Edit" icon="sap-icon://edit" press="showEditComment" />
+                    <FeedListItemAction text="Delete" icon="sap-icon://delete" press="showDeleteComment" />
+				</FeedListItem>
+			</List>
+        </content>
+        <footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+                <Button
+                    icon="sap-icon://add"
+					press="createAddCommentDialog" />
+			</OverflowToolbar>
+		</footer>
+	</Popover>
+</core:FragmentDefinition>
